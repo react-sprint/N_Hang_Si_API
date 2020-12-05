@@ -5,6 +5,7 @@ from .serializers import (NPoemRanksListSerializer,
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework import exceptions
 
 from .models import NPoems
 
@@ -29,15 +30,18 @@ class NPoemRanksListAPI(generics.ListAPIView):
 
 
 class NPoemRegisterAPI(generics.CreateAPIView):
-    serializer_class = NPoemRegisterSerializer
-
-    def create(self, request, *args, **kwargs):
-        request.data['result_text'] = '!@'.join(request.data.pop('list_text'))
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    def post(self, request):
+        try:
+            if(len(request.data['word']) != len(request.data['list_text'])):
+                raise exceptions.ValidationError("error")
+            request.data['result_text'] = '!@'.join(
+                request.data.pop('list_text'))
+            serializer = NPoemRegisterSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except:
+            raise exceptions.ValidationError("error")
 
 
 class NPoemIncreaseLikeAPI(generics.UpdateAPIView):
