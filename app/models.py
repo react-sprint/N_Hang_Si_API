@@ -44,14 +44,13 @@ class NPoems(models.Model):
         auto_now_add=True
     )
 
-    def get_info(self):
+    def get_rank_info(self):
         return {
             'nickname': self.nickname,
             'level': self.get_level_display(),
             'word': self.word,
-            'result_text': self.result_text,
+            'result_text': [self.result_text.split('!@')],
             'time': self.time,
             'time_out': self.time_out,
             'like': self.like,
-            'created_at': self.created_at
         }
