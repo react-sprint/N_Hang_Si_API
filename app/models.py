@@ -46,6 +46,7 @@ class NPoems(models.Model):
 
     def get_rank_info(self):
         return {
+            'id': self.id,
             'nickname': self.nickname,
             'level': self.get_level_display(),
             'word': self.word,

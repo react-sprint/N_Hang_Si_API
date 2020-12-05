@@ -20,3 +20,10 @@ class NPoemRegisterSerializer(serializers.ModelSerializer):
         model = NPoems
         fields = ('nickname', 'level', 'word',
                   'result_text', 'time', 'time_out')
+
+
+class NPoemLikeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = NPoems
+        fields = ['like']

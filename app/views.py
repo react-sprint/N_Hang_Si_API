@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from .serializers import (NPoemRanksListSerializer, NPoemRegisterSerializer)
+from .serializers import (NPoemRanksListSerializer,
+                          NPoemRegisterSerializer,
+                          NPoemLikeSerializer)
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
@@ -36,3 +38,23 @@ class NPoemRegisterAPI(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class NPoemIncreaseLikeAPI(generics.UpdateAPIView):
+    serializer_class = NPoemLikeSerializer
+    queryset = NPoems.objects.all()
+
+    def get_object(self):
+        object = super().get_object()
+        object.like = object.like + 1
+        return object
+
+
+class NPoemDecreaseLikeAPI(generics.UpdateAPIView):
+    serializer_class = NPoemLikeSerializer
+    queryset = NPoems.objects.all()
+
+    def get_object(self):
+        object = super().get_object()
+        object.like = object.like - 1 if object.like > 0 else 0
+        return object
