@@ -3,7 +3,7 @@ from pathlib import Path
 import environ
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True)
+    DEBUG=(bool, False)
 )
 # reading .env file
 environ.Env.read_env()
@@ -15,6 +15,8 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
+
+N_HANG_SI_API_KEY = env('N_HANG_SI_API_KEY')
 
 
 INSTALLED_APPS = [
@@ -67,6 +69,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'nhangsi.permissions.Check_API_KEY',
+    ]
 }
 
 AUTH_PASSWORD_VALIDATORS = [
