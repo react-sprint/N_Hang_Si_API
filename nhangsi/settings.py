@@ -1,9 +1,9 @@
-
+from corsheaders.defaults import default_headers
 from pathlib import Path
 import environ
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True)
+    DEBUG=(bool, False)
 )
 # reading .env file
 environ.Env.read_env()
@@ -15,6 +15,8 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
+
+N_HANG_SI_API_KEY = env('N_HANG_SI_API_KEY')
 
 
 INSTALLED_APPS = [
@@ -30,6 +32,9 @@ INSTALLED_APPS = [
 
     # Apps
     'app',
+
+    # CORS
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +45,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # CORS
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'nhangsi.urls'
@@ -69,6 +77,12 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'nhangsi.permissions.Check_API_KEY',
+    ]
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -95,3 +109,15 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT'
+)
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'n-hang-si-api',
+]
