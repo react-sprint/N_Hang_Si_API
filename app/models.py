@@ -50,7 +50,7 @@ class NPoems(models.Model):
             'nickname': self.nickname,
             'level': self.get_level_display(),
             'word': self.word,
-            'result_text': [self.result_text.split('!@')],
+            'result_text': self.result_text.split('!@'),
             'time': self.time,
             'time_out': self.time_out,
             'like': self.like,
