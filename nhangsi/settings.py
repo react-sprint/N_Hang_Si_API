@@ -1,4 +1,4 @@
-
+from corsheaders.defaults import default_headers
 from pathlib import Path
 import environ
 env = environ.Env(
@@ -32,6 +32,9 @@ INSTALLED_APPS = [
 
     # Apps
     'app',
+
+    # CORS
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -42,6 +45,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # CORS
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'nhangsi.urls'
@@ -103,3 +109,15 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT'
+)
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'n-hang-si-api',
+]
