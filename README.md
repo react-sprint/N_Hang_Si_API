@@ -18,6 +18,7 @@ Django `3.1.3`
 ```vim
 DEBUG=on
 DJANGO_SECRET_KEY='방구석 호랑이 문의'
+N_HANG_SI_API_KEY='방구석 호랑이 문의'
 ```
 
 ## 실행
@@ -31,3 +32,7 @@ $ python manage.py migrate
 # 실행
 $ python manage.py runserver 127.0.0.1:8000
 ```
+
+## API 정리 문서
+
+### [N 행시 API 정리 문서](https://docs.google.com/document/d/1Gn1fWumC4L1rv0BQ3Tg-pfp-Ne0nGfnJ_7rts5jl8H4/edit?usp=sharing)
