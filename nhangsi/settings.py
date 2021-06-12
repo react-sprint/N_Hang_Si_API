@@ -1,22 +1,18 @@
+import dj_database_url
+import os
 from corsheaders.defaults import default_headers
 from pathlib import Path
-import environ
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
-# reading .env file
-environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
-N_HANG_SI_API_KEY = env('N_HANG_SI_API_KEY')
+N_HANG_SI_API_KEY = os.environ.get('N_HANG_SI_API_KEY')
 
 
 INSTALLED_APPS = [
@@ -38,6 +34,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -121,3 +118,6 @@ CORS_ALLOW_METHODS = (
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'n-hang-si-api',
 ]
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
